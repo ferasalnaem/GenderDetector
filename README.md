@@ -1,39 +1,92 @@
 # GenderDetector
-This Project was an Semester Project in manner to the Lecture "Special Aspects of mobile Autonomous Sysytems", where this idea can help the Robots to cummunicate better with people.
-Whtat did made better is that the whole training process got faster than using normal transfer learning method. Because we found the fine tuning much better to use the high value features plus reduce the time and trainable parameters.
+This project was developed as a semester project for the lecture "Special Aspects of Mobile Autonomous Systems". The idea behind this project is to assist robots in better communicating with people by accurately detecting gender.
+
+A key improvement in this project is the significant reduction in training time compared to traditional transfer learning methods. By using fine-tuning, we leverage high-value features while reducing the number of trainable parameters, leading to faster training and better performance.
 
 
-## Run the code :
-We provided the both models (the one with the keras frozen layers and the solution) , you can as it’s going to be explained just comment one of the model and train this with : python trains.py
+## How to Run the Code 
+We provide two models:
 
-As you can see in the structure we’ve divided the project into this parts :
-- Loading the data using data_loader.py class
-- Preprocessing and augmenting and normalizing the data using inference.py and preprocessor.py
-- Generating the data using generator.py class
-- Prepare some dependencies using download.sh and utils
-- Models which are located in models folder,where all the needed files like model & .hdf5 & .json format … meant to be saved
-- The weights which are located in the folder with the same name
-- And the train.py class which is somehow our main for this project
-- Install some dependencies like , os. Opencv, Python 3.5+, Keras 2.0+, scipy, numpy, Pandas, tqdm, tables, h5py, dlib (for demo)
+1. A model with Keras frozen layers (baseline version).
+2. A fine-tuned solution.
+
+To run the project, you can comment out the model you don't want to use and train the desired one by running:
+
+                  $ python train.py
 
 
-If you run the “train.py” , then suitable model located here: “models/transfer_learning/inception_v3”  imported into the class ,will get executed , which is the most recent version of our designed models.
-By default will the inception_v3 be called. By demand you can comment this and uncomment other models, existing in that class.
-Our previous version of model located here : “ models/fine_tuning/inception_v3_finetune”, where we trained the model in two steps, at first on wiki dataset and at second step we freezed some layers and fit the model with imdb dataset,
-If we want to run code in that mode,then we should comment the compiling , data_generating , callbacks, checkpoints in the train.py class until visualization part. Because they already defined  in that class regarding to the special model architecture that we had.
+## Project Structure
 
-As an option we can modify the process by changing this parameters in either argument part or more deep in the code :
-Nb_epochs : number of epochs
-Patience : number of epochs,that model will continue if val_loss not getting better, while monitoring it
-The optimizer : could be either SGD, Adam, RmsProb
-Batch_size : the number of images per each batch while fitting the model
-Input_shape : should be choose due to architecture of model : 299, 224, 160
-Validation_split : depends on your decision could be 0.2, 0.1 
-You can also choose if you monitor loss, val_loss, accuracy,  val_acc
- 
+The project is organized as follows:
 
-Running after training :
-	How we can run the model on live camera to see the live prediction :
-We should just run that class using this command :
-	Python predictionlivevideo.py
-For running this class we need only to address the weights using “gender_model_path” local parameter . 
+- data_loader.py: Handles loading the data.
+- preprocessor.py and inference.py: Responsible for preprocessing, augmenting, and normalizing the data.
+- generator.py: Generates the data in batches for training.
+- download.sh and utils: Prepares and downloads necessary dependencies.
+- models/: Contains the models, including:
+	- .hdf5 (weights)
+	- .json (model architecture)
+	- Additional files needed for training.
+- weights/: Contains pre-trained weights.
+- train.py: The main script to train the models.
+- Dependencies: Requires the following libraries:
+	- Python 3.5+
+	- Keras 2.0+
+	- TensorFlow (backend for Keras)
+	- OpenCV
+	- Scipy
+	- Numpy
+	- Pandas
+	- tqdm
+	- tables
+	- h5py
+	- dlib (used for the demo)
+
+## Training the Model
+
+To train the model, simply run:
+                  $ python train.py
+
+- By default, the InceptionV3 model (located in models/transfer_learning/inception_v3) will be used.
+- You can switch to a different model by commenting out the InceptionV3 section in train.py and uncommenting the desired model.
+
+
+## Previous Model Version
+
+Our previous model version is located here: models/fine_tuning/inception_v3_finetune.
+
+In this version:
+1. The model was first trained on the Wiki dataset.
+2. Then, certain layers were frozen, and the model was fine-tuned with the IMDB dataset.
+
+To run the code using this version:
+- Comment out sections in train.py related to compiling, data generation, callbacks, and checkpoints (these are already defined in the fine-tuned model's architecture).
+- Then run the visualization part.
+
+## Modifying Training Parameters
+
+You can adjust training parameters to customize the process. Parameters can be modified either:
+
+- In the argument section of the script.
+- Or deeper in the code.
+
+Here are the adjustable parameters:
+- nb_epochs: Number of training epochs.
+- patience: Number of epochs to wait without improvement in val_loss before stopping training.
+- optimizer: Choose between SGD, Adam, or RMSprop.
+- batch_size: Number of images per batch during training.
+- input_shape: Image dimensions, which should match the model's architecture (e.g., 299, 224, 160).
+- validation_split: Fraction of the data reserved for validation (e.g., 0.2 or 0.1).
+- Metrics: Choose whether to monitor loss, val_loss, accuracy, or val_acc.
+
+## Running the Model After Training
+
+Live Prediction with Camera
+To test live predictions using a webcam:
+
+1. Run the following command:
+
+                     $ python predictionlivevideo.py
+2. In the script, set the gender_model_path parameter to point to the weights file.
+
+   
